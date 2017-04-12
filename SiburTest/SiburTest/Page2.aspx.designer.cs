@@ -10,6 +10,6 @@
 namespace SiburTest {
     
     
-    public partial class _Default {
+    public partial class Page2 {
     }
 }
