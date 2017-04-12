@@ -2,8 +2,8 @@
 -- --------------------------------------------------
 -- Entity Designer DDL Script for SQL Server 2005, 2008, 2012 and Azure
 -- --------------------------------------------------
--- Date Created: 04/12/2017 17:59:43
--- Generated from EDMX file: C:\Users\iRumba\Source\Repos\SiburTest\SiburTest\SiburTest\Models\DataBase.edmx
+-- Date Created: 04/12/2017 22:53:36
+-- Generated from EDMX file: E:\programing\Repos\SiburTest\SiburTest\SiburTest\Models\DataBase.edmx
 -- --------------------------------------------------
 
 SET QUOTED_IDENTIFIER OFF;
@@ -17,23 +17,32 @@ GO
 -- Dropping existing FOREIGN KEY constraints
 -- --------------------------------------------------
 
+IF OBJECT_ID(N'[dbo].[FK_DepartmentEployee]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[EmployeeSet] DROP CONSTRAINT [FK_DepartmentEployee];
+GO
 
 -- --------------------------------------------------
 -- Dropping existing tables
 -- --------------------------------------------------
 
+IF OBJECT_ID(N'[dbo].[EmployeeSet]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[EmployeeSet];
+GO
+IF OBJECT_ID(N'[dbo].[DepartmentSet]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[DepartmentSet];
+GO
 
 -- --------------------------------------------------
 -- Creating all tables
 -- --------------------------------------------------
 
--- Creating table 'EployeeSet'
-CREATE TABLE [dbo].[EployeeSet] (
+-- Creating table 'EmployeeSet'
+CREATE TABLE [dbo].[EmployeeSet] (
     [Id] int IDENTITY(1,1) NOT NULL,
     [FirstName] nvarchar(max)  NOT NULL,
     [LastName] nvarchar(max)  NOT NULL,
-    [MiddleName] nvarchar(max)  NOT NULL,
-    [DepartmentId] int  NOT NULL
+    [MiddleName] nvarchar(max)  NULL,
+    [DepartmentId] int  NULL
 );
 GO
 
@@ -48,9 +57,9 @@ GO
 -- Creating all PRIMARY KEY constraints
 -- --------------------------------------------------
 
--- Creating primary key on [Id] in table 'EployeeSet'
-ALTER TABLE [dbo].[EployeeSet]
-ADD CONSTRAINT [PK_EployeeSet]
+-- Creating primary key on [Id] in table 'EmployeeSet'
+ALTER TABLE [dbo].[EmployeeSet]
+ADD CONSTRAINT [PK_EmployeeSet]
     PRIMARY KEY CLUSTERED ([Id] ASC);
 GO
 
@@ -64,8 +73,8 @@ GO
 -- Creating all FOREIGN KEY constraints
 -- --------------------------------------------------
 
--- Creating foreign key on [DepartmentId] in table 'EployeeSet'
-ALTER TABLE [dbo].[EployeeSet]
+-- Creating foreign key on [DepartmentId] in table 'EmployeeSet'
+ALTER TABLE [dbo].[EmployeeSet]
 ADD CONSTRAINT [FK_DepartmentEployee]
     FOREIGN KEY ([DepartmentId])
     REFERENCES [dbo].[DepartmentSet]
@@ -75,7 +84,7 @@ GO
 
 -- Creating non-clustered index for FOREIGN KEY 'FK_DepartmentEployee'
 CREATE INDEX [IX_FK_DepartmentEployee]
-ON [dbo].[EployeeSet]
+ON [dbo].[EmployeeSet]
     ([DepartmentId]);
 GO
 

@@ -13,5 +13,16 @@ namespace SiburTest
         {
 
         }
+
+        protected void Unnamed_Click(object sender, EventArgs e)
+        {
+            var fn = new Parameter("@FirstName", System.Data.DbType.String);
+            var ln = new Parameter("@LastName", System.Data.DbType.String);
+            fn.DefaultValue = txtName.Text;
+            ln.DefaultValue = txtName.Text;
+            StuffSource.InsertParameters.Add(fn);
+            StuffSource.InsertParameters.Add(ln);
+            StuffSource.Insert();
+        }
     }
 }

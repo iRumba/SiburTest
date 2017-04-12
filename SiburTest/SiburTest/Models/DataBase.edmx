@@ -4,24 +4,24 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-    <Schema Namespace="DataBase.Store" Alias="Self" Provider="System.Data.SqlClient" ProviderManifestToken="2012" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+    <Schema Namespace="DataBase.Store" Alias="Self" Provider="System.Data.SqlClient" ProviderManifestToken="2008" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
   <EntityContainer Name="DataBaseStoreContainer">
-    <EntitySet Name="EployeeSet" EntityType="DataBase.Store.EployeeSet" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="EmployeeSet" EntityType="DataBase.Store.EmployeeSet" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="DepartmentSet" EntityType="DataBase.Store.DepartmentSet" store:Type="Tables" Schema="dbo" />
     <AssociationSet Name="DepartmentEployee" Association="DataBase.Store.DepartmentEployee">
       <End Role="Department" EntitySet="DepartmentSet" />
-      <End Role="Eployee" EntitySet="EployeeSet" />
+      <End Role="Eployee" EntitySet="EmployeeSet" />
     </AssociationSet>
   </EntityContainer>
-  <EntityType Name="EployeeSet">
+  <EntityType Name="EmployeeSet">
     <Key>
       <PropertyRef Name="Id" />
     </Key>
     <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="FirstName" Type="nvarchar(max)" Nullable="false" />
     <Property Name="LastName" Type="nvarchar(max)" Nullable="false" />
-    <Property Name="MiddleName" Type="nvarchar(max)" Nullable="false" />
-    <Property Name="DepartmentId" Type="int" Nullable="false" />
+    <Property Name="MiddleName" Type="nvarchar(max)" Nullable="true" />
+    <Property Name="DepartmentId" Type="int" Nullable="true" />
   </EntityType>
   <EntityType Name="DepartmentSet">
     <Key>
@@ -31,8 +31,8 @@
     <Property Name="Name" Type="nvarchar(max)" Nullable="false" />
   </EntityType>
   <Association Name="DepartmentEployee">
-    <End Role="Department" Type="DataBase.Store.DepartmentSet" Multiplicity="1" />
-    <End Role="Eployee" Type="DataBase.Store.EployeeSet" Multiplicity="*" />
+    <End Role="Department" Type="DataBase.Store.DepartmentSet" Multiplicity="0..1" />
+    <End Role="Eployee" Type="DataBase.Store.EmployeeSet" Multiplicity="*" />
     <ReferentialConstraint>
       <Principal Role="Department">
         <PropertyRef Name="Id" />
@@ -47,23 +47,23 @@
     <edmx:ConceptualModels>
       <Schema xmlns="http://schemas.microsoft.com/ado/2009/11/edm" xmlns:cg="http://schemas.microsoft.com/ado/2006/04/codegeneration" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" Namespace="DataBase" Alias="Self" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" annotation:UseStrongSpatialTypes="false">
         <EntityContainer Name="DataBaseContainer" annotation:LazyLoadingEnabled="true">
-          <EntitySet Name="EployeeSet" EntityType="DataBase.Eployee" />
+          <EntitySet Name="EmployeeSet" EntityType="DataBase.Employee" />
           <EntitySet Name="DepartmentSet" EntityType="DataBase.Department" />
           <AssociationSet Name="DepartmentEployee" Association="DataBase.DepartmentEployee">
             <End Role="Department" EntitySet="DepartmentSet" />
-            <End Role="Eployee" EntitySet="EployeeSet" />
+            <End Role="Eployee" EntitySet="EmployeeSet" />
           </AssociationSet>
         </EntityContainer>
-        <EntityType Name="Eployee">
+        <EntityType Name="Employee">
           <Key>
             <PropertyRef Name="Id" />
           </Key>
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="FirstName" Type="String" Nullable="false" />
           <Property Name="LastName" Type="String" Nullable="false" />
-          <Property Name="MiddleName" Type="String" Nullable="false" />
+          <Property Name="MiddleName" Type="String" Nullable="true" />
           <NavigationProperty Name="Department" Relationship="DataBase.DepartmentEployee" FromRole="Eployee" ToRole="Department" />
-          <Property Name="DepartmentId" Type="Int32" Nullable="false" />
+          <Property Name="DepartmentId" Type="Int32" Nullable="true" />
         </EntityType>
         <EntityType Name="Department">
           <Key>
@@ -74,8 +74,8 @@
           <NavigationProperty Name="Eployee" Relationship="DataBase.DepartmentEployee" FromRole="Department" ToRole="Eployee" />
         </EntityType>
         <Association Name="DepartmentEployee">
-          <End Type="DataBase.Department" Role="Department" Multiplicity="1" />
-          <End Type="DataBase.Eployee" Role="Eployee" Multiplicity="*" />
+          <End Type="DataBase.Department" Role="Department" Multiplicity="0..1" />
+          <End Type="DataBase.Employee" Role="Eployee" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Department">
               <PropertyRef Name="Id" />
@@ -91,9 +91,9 @@
     <edmx:Mappings>
     <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
   <EntityContainerMapping StorageEntityContainer="DataBaseStoreContainer" CdmEntityContainer="DataBaseContainer">
-    <EntitySetMapping Name="EployeeSet">
-      <EntityTypeMapping TypeName="IsTypeOf(DataBase.Eployee)">
-        <MappingFragment StoreEntitySet="EployeeSet">
+    <EntitySetMapping Name="EmployeeSet">
+      <EntityTypeMapping TypeName="IsTypeOf(DataBase.Employee)">
+        <MappingFragment StoreEntitySet="EmployeeSet">
           <ScalarProperty Name="Id" ColumnName="Id" />
           <ScalarProperty Name="FirstName" ColumnName="FirstName" />
           <ScalarProperty Name="LastName" ColumnName="LastName" />
