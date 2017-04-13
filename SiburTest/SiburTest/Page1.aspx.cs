@@ -9,20 +9,48 @@ namespace SiburTest
 {
     public partial class Page1 : System.Web.UI.Page
     {
-        protected void Page_Load(object sender, EventArgs e)
+        protected void OnEditCommand(object sender, CommandEventArgs e)
         {
-
+            return;
         }
 
-        protected void Unnamed_Click(object sender, EventArgs e)
+        protected void grid_RowDataBound(object sender, GridViewRowEventArgs e)
         {
-            var fn = new Parameter("@FirstName", System.Data.DbType.String);
-            var ln = new Parameter("@LastName", System.Data.DbType.String);
-            fn.DefaultValue = txtName.Text;
-            ln.DefaultValue = txtName.Text;
-            StuffSource.InsertParameters.Add(fn);
-            StuffSource.InsertParameters.Add(ln);
-            StuffSource.Insert();
+            if (e.Row.RowType == DataControlRowType.DataRow)
+            {
+                var btnNew = (LinkButton)e.Row.FindControl("btnNew");
+                var btnEdit = (LinkButton)e.Row.FindControl("btnEdit");
+                var btnDelete = (LinkButton)e.Row.FindControl("btnDelete");
+                var btnUpdate = (LinkButton)e.Row.FindControl("btnUpdate");
+                var btnCancel = (LinkButton)e.Row.FindControl("btnCancel");
+                //btnNew.OnClientClick = Page.ClientScript.GetPostBackEventReference(grid, $"Edit${e.Row.RowIndex}");
+                if (e.Row.RowState.HasFlag(DataControlRowState.Edit))
+                {
+                    btnNew.Visible = false;
+                    btnEdit.Visible = false;
+                    btnDelete.Visible = false;
+                    btnUpdate.Visible = true;
+                    btnCancel.Visible = true;
+                }
+                else
+                {
+                    btnNew.Visible = e.Row.RowIndex == 0;
+                    btnEdit.Visible = e.Row.RowIndex > 0;
+                    btnDelete.Visible = e.Row.RowIndex > 0;
+                    btnUpdate.Visible = false;
+                    btnCancel.Visible = false;
+                }
+            }
+        }
+
+        protected void grid_RowEditing(object sender, GridViewEditEventArgs e)
+        {
+            return;
+        }
+
+        protected void grid_RowCancelingEdit(object sender, GridViewCancelEditEventArgs e)
+        {
+            return;
         }
     }
 }
