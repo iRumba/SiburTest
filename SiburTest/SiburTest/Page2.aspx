@@ -12,9 +12,8 @@
     <asp:LinqDataSource runat="server"
         ID="DeparetmentsSource"
         ContextTypeName="SiburTest.Models.StaffContext"
-        TableName="Departments"
-        OnSelected="DeparetmentsSource_Selected" />
-    <asp:Repeater runat="server" DataSourceID="DeparetmentsSource" ID="rep">
+        TableName="Departments" />
+    <asp:Repeater runat="server" DataSource="<%# Departments %>" ID="rep">
         <ItemTemplate>
             <div class="row">
 
@@ -24,7 +23,7 @@
                     </p>
                     <p style="margin-left: 15px">
                         <asp:Label runat="server"
-                            Text='<%# string.Join(Separator,((Eval("Employees") as List<SiburTest.Models.Employee>) ?? new List<SiburTest.Models.Employee>()).Select(empl=> $"{empl.LastName} {empl.FirstName.Trim()[0]}. {empl.MiddleName.Trim()[0]}.")) %>' />
+                            Text='<%# string.Join(Separator,((Eval("Employees") as List<SiburTest.Models.Employee>) ?? new List<SiburTest.Models.Employee>()).Select(empl=> GetShortName(empl))) %>' />
                     </p>
                 </div>
             </div>
