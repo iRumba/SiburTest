@@ -7,41 +7,42 @@
         SELECT 0 Id, NULL FirstName, NULL LastName, NULL MiddleName, NULL DepartmentId, NULL DepartmentName
         UNION ALL
         SELECT es.Id, FirstName, LastName, MiddleName, DepartmentId, ds.Name DepartmentName 
-        FROM EmployeeSet es
-        LEFT JOIN DepartmentSet ds ON ds.Id = es.DepartmentId"
+        FROM Employees es
+        LEFT JOIN Departments ds ON ds.Id = es.DepartmentId"
         UpdateCommand="
         IF @Id > 0
-            UPDATE EmployeeSet SET 
+            UPDATE Employees SET 
             FirstName = @FirstName, 
             LastName = @LastName,
             MiddleName = @MiddleName,
             DepartmentId = @DepartmentId
             WHERE Id = @Id
         ELSE
-            INSERT INTO EmployeeSet (FirstName, LastName, MiddleName, DepartmentId) 
+            INSERT INTO Employees (FirstName, LastName, MiddleName, DepartmentId) 
             VALUES (@FirstName, @LastName, @MiddleName, @DepartmentId)
         "
-        DeleteCommand="DELETE FROM EmployeeSet WHERE Id = @Id">
+        DeleteCommand="DELETE FROM Employees WHERE Id = @Id">
     </asp:SqlDataSource>
     <asp:SqlDataSource ID="DepartmentsSource" runat="server" ConnectionString="<%$ connectionStrings:SiburConnection %>"
         SelectCommand="
         SELECT 0 Id, NULL Name
         UNION ALL
-        SELECT Id, Name FROM DepartmentSet"
+        SELECT Id, Name FROM Departments"
         UpdateCommand="
         IF @Id > 0
-            UPDATE DepartmentSet SET
+            UPDATE Departments SET
             Name = @Name
             WHERE Id = @Id
         ELSE
-            INSERT INTO DepartmentSet (Name) VALUES (@Name)" />
+            INSERT INTO Departments (Name) VALUES (@Name)" />
     <asp:SqlDataSource ID="DepartmentsSourceForChanging" runat="server" ConnectionString="<%$ connectionStrings:SiburConnection %>"
         SelectCommand="
         SELECT NULL Id, 'Не выбран' Name
         UNION ALL
-        SELECT Id, Name FROM DepartmentSet" />
+        SELECT Id, Name FROM Departments" />
     <asp:GridView ID="gridDepartments" runat="server" DataSourceID="DepartmentsSource" ShowHeaderWhenEmpty="true"
-        CssClass="col-sm-4" AutoGenerateColumns="false" DataKeyNames="Id">
+        AutoGenerateColumns="false" DataKeyNames="Id"  CellPadding="5" >
+        <HeaderStyle BackColor="DimGray" ForeColor="White" Font-Bold="true" />
         <Columns>
             <asp:TemplateField>
                 <ItemTemplate>
@@ -69,12 +70,10 @@
             </asp:TemplateField>
         </Columns>
     </asp:GridView>
+    <br />
     <asp:GridView ID="grid" runat="server" DataSourceID="StuffSource" AutoGenerateColumns="False" DataKeyNames="Id"
-        OnRowDataBound="grid_RowDataBound"
-        ShowHeaderWhenEmpty="True" 
-        OnRowEditing="grid_RowEditing" OnRowCancelingEdit="grid_RowCancelingEdit" CssClass="col-sm-8" >
-        <HeaderStyle BackColor="DimGray" ForeColor="White" Font-Bold="true" 
-            />
+        ShowHeaderWhenEmpty="True" CellPadding="5" >
+        <HeaderStyle BackColor="DimGray" ForeColor="White" Font-Bold="true" />
         <Columns>
             <asp:TemplateField>
                 <ItemTemplate>
