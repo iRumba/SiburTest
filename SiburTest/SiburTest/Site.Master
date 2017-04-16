@@ -57,11 +57,12 @@
             </div>
         </div>
         <div class="container body-content">
-            <br />
-            <asp:ContentPlaceHolder ID="MainContent" runat="server">
-            </asp:ContentPlaceHolder>
+            <div class="row" style="margin-top:20px">
+                <asp:ContentPlaceHolder ID="MainContent" runat="server">
+                </asp:ContentPlaceHolder>
+            </div>
             <hr />
-            <footer>
+            <footer class="row">
                 <p>&copy; <%: DateTime.Now.Year %> - Анатолий Южиков</p>
             </footer>
         </div>

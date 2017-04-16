@@ -6,6 +6,9 @@ using Microsoft.AspNet.FriendlyUrls;
 
 namespace SiburTest
 {
+    /// <summary>
+    /// Автоматически созданный класс
+    /// </summary>
     public static class RouteConfig
     {
         public static void RegisterRoutes(RouteCollection routes)

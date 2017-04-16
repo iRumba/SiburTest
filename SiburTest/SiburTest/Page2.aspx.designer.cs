@@ -22,15 +22,6 @@ namespace SiburTest {
         protected global::System.Web.UI.WebControls.TextBox txtSep;
         
         /// <summary>
-        /// DeparetmentsSource элемент управления.
-        /// </summary>
-        /// <remarks>
-        /// Автоматически создаваемое поле.
-        /// Для изменения переместите объявление поля из файла конструктора в файл кода программной части.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.LinqDataSource DeparetmentsSource;
-        
-        /// <summary>
         /// rep элемент управления.
         /// </summary>
         /// <remarks>

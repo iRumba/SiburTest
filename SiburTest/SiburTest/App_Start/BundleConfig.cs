@@ -7,6 +7,10 @@ using System.Web.UI;
 
 namespace SiburTest
 {
+    /// <summary>
+    /// Этот класс был в шаблоне приложения Web Forms. Тут в целом понятно для чего он, но документировать его я
+    /// не буду, так как всю документацию можно найти в интернете.
+    /// </summary>
     public class BundleConfig
     {
         // Дополнительные сведения об объединении см. по адресу: http://go.microsoft.com/fwlink/?LinkID=303951

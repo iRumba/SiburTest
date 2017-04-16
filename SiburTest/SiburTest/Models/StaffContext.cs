@@ -3,6 +3,9 @@ using System.Data.Entity;
 
 namespace SiburTest.Models
 {
+    /// <summary>
+    /// Контекст данных
+    /// </summary>
     public class StaffContext : DbContext
     {
         public StaffContext()
@@ -14,6 +17,9 @@ namespace SiburTest.Models
         public DbSet<Department> Departments { get; set; }
     }
 
+    /// <summary>
+    /// Модель сотрудника
+    /// </summary>
     public class Employee
     {
         public int Id { get; set; }
@@ -29,6 +35,9 @@ namespace SiburTest.Models
         public virtual Department Department { get; set; }
     }
 
+    /// <summary>
+    /// Модель отдела
+    /// </summary>
     public class Department
     {
         public int Id { get; set; }

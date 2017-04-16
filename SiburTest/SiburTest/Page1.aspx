@@ -1,7 +1,7 @@
 ﻿<%@ Page Language="C#" AutoEventWireup="true" MasterPageFile="~/Site.Master" CodeBehind="Page1.aspx.cs" Inherits="SiburTest.Page1" %>
 
 <asp:Content ID="BodyContent" runat="server" ContentPlaceHolderID="MainContent">
-    
+    <%-- Источник данных для таблицы сотрудников --%>
     <asp:SqlDataSource ID="StuffSource" runat="server" ConnectionString="<%$ connectionStrings:SiburConnection %>"
         SelectCommand="
         SELECT 0 Id, NULL FirstName, NULL LastName, NULL MiddleName, NULL DepartmentId, NULL DepartmentName
@@ -9,8 +9,7 @@
         SELECT es.Id, FirstName, LastName, MiddleName, DepartmentId, ds.Name DepartmentName 
         FROM Employees es
         LEFT JOIN Departments ds ON ds.Id = es.DepartmentId"
-        UpdateCommand="
-        IF @Id > 0
+        UpdateCommand="IF @Id > 0
             UPDATE Employees SET 
             FirstName = @FirstName, 
             LastName = @LastName,
@@ -23,23 +22,40 @@
         "
         DeleteCommand="DELETE FROM Employees WHERE Id = @Id">
     </asp:SqlDataSource>
+
+    <%-- Источник данных для таблицы отделов --%>
     <asp:SqlDataSource ID="DepartmentsSource" runat="server" ConnectionString="<%$ connectionStrings:SiburConnection %>"
+        OnDeleted="DepartmentsSource_Deleted"
         SelectCommand="
         SELECT 0 Id, NULL Name
         UNION ALL
         SELECT Id, Name FROM Departments"
-        UpdateCommand="
-        IF @Id > 0
+        UpdateCommand="IF @Id > 0
             UPDATE Departments SET
             Name = @Name
             WHERE Id = @Id
         ELSE
-            INSERT INTO Departments (Name) VALUES (@Name)" />
+            INSERT INTO Departments (Name) VALUES (@Name)" 
+        DeleteCommand="DELETE FROM Departments WHERE Id = @Id"
+        />
+
+    <asp:Repeater runat="server" DataSource="<%# Alerts %>">
+        <ItemTemplate>
+            <div class='alert alert-<%# GetAlertTypeString((SiburTest.Utils.AlertType)Eval("Type")) %> alert-dismissable'>
+                <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                <strong><%# Eval("Title") %></strong> <%# Eval("Message") %>
+            </div>
+        </ItemTemplate>
+    </asp:Repeater>
+
+    <%-- Источник данных для комбобокса в таблице с сотрудниками --%>
     <asp:SqlDataSource ID="DepartmentsSourceForChanging" runat="server" ConnectionString="<%$ connectionStrings:SiburConnection %>"
         SelectCommand="
         SELECT NULL Id, 'Не выбран' Name
         UNION ALL
         SELECT Id, Name FROM Departments" />
+
+    <%-- Таблица отделов --%>
     <asp:GridView ID="gridDepartments" runat="server" DataSourceID="DepartmentsSource" ShowHeaderWhenEmpty="true"
         AutoGenerateColumns="false" DataKeyNames="Id"  CellPadding="5" >
         <HeaderStyle BackColor="DimGray" ForeColor="White" Font-Bold="true" />
@@ -71,6 +87,8 @@
         </Columns>
     </asp:GridView>
     <br />
+
+    <%-- Таблица сотрудников --%>
     <asp:GridView ID="grid" runat="server" DataSourceID="StuffSource" AutoGenerateColumns="False" DataKeyNames="Id"
         ShowHeaderWhenEmpty="True" CellPadding="5" >
         <HeaderStyle BackColor="DimGray" ForeColor="White" Font-Bold="true" />
